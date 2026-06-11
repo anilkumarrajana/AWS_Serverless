@@ -1,22 +1,23 @@
-Assignment 1: Automated Instance Management Using AWS Lambda and Boto3
+### Automated Instance Management Using AWS Lambda and Boto3
 
-Objective: In this Project, you will gain hands-on experience with AWS Lambda and Boto3, Amazon's SDK for Python. You will create a Lambda function that will automatically manage EC2 instances based on their tags.
+## Objective: 
+In this Project, you will gain hands-on experience with AWS Lambda and Boto3, Amazon's SDK for Python. You will create a Lambda function that will automatically manage EC2 instances based on their tags.
 
 Automate the stopping and starting of EC2 instances based on tags.
 
-1. Setup:
+# 1. Setup:
 
    - Create two EC2 instances.
 
    - Tag one of them as `Auto-Stop` and the other as `Auto-Start`.
 
-2. Lambda Function Creation:
+# 2. Lambda Function Creation:
 
    - Set up an AWS Lambda function.
 
    - Ensure that the Lambda function has the necessary IAM permissions to describe, stop, and start EC2 instances.
 
-3. Coding:
+# 3. Coding:
 
    - Using Boto3 in the Lambda function:
 
@@ -24,15 +25,15 @@ Automate the stopping and starting of EC2 instances based on tags.
 
      - Detect all EC2 instances with the `Auto-Start` tag and start them.
 
-4. Testing:
+# 4. Testing:
 
    - Manually invoke the Lambda function.
 
    - Confirm that the instance tagged `Auto-Stop` stops and the one tagged `Auto-Start` starts.
 
-Implementation:
+### Implementation:
 
-1. EC2 Setup:
+# 1. EC2 Setup:
 
    - Navigate to the EC2 dashboard and create two new t2.micro instances (or any other available free-tier type).
    ![alt text](image.png)
@@ -41,13 +42,13 @@ Implementation:
     ![alt text](image-2.png)
    - Tag the second instance with a key `Action` and value `Auto-Start`.
     ![alt text](image-1.png)
-2. Lambda IAM Role:
+# 2. Lambda IAM Role:
 
    - In the IAM dashboard, create a new role for Lambda.
 
    - Attach the `AmazonEC2FullAccess` policy to this role. (Note: In a real-world scenario, you would want to limit permissions for better security.)
     ![alt text](image-3.png)
-3. Lambda Function:
+# 3. Lambda Function:
 
    - Navigate to the Lambda dashboard and create a new function.
 
@@ -66,7 +67,7 @@ Implementation:
      4. Print instance IDs that were affected for logging purposes.
      ![alt text](image-5.png)
 
-4. Manual Invocation:
+# 4. Manual Invocation:
 
    - After saving your function, manually trigger it.
 
