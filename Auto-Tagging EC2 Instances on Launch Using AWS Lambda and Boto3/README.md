@@ -43,13 +43,13 @@ Create a trail as `ec2-launch-trail` with default values and AWS to create s3 fo
 
 ![alt text](cloudtrail.png)
 
-## Step 4: Create the Lambda function
+## Step 3: Create the Lambda function
 
 Create a Lambda Function as `AutoTagEC2OnLaunch` with an existing role`Lambda-EC2-Role`.
 
 ![alt text](lambda.png)
 
-## Step 5: Add the Python Boto3 code
+## Step 4: Add the Python Boto3 code
 
 Replace the default Lambda code with the following script.
 
@@ -121,56 +121,23 @@ The assignment asks for the current date. Lambda commonly uses UTC when generati
 | `LaunchDate` | `2026-06-20` | Tracks when the automation tagged the instance |
 | `AutoTagged` | `Yes` | Identifies that the instance was tagged automatically |
 
-Deply the lambda with updated code.
+Deploy the lambda with updated code.
 
 ![alt text](deploy.png)
 
-## Step 7: Create the EventBridge rule
+## Step 5: Create the EventBridge rule
 
 Create a rule that reacts to the EC2 launch API call recorded by CloudTrail. AWS documents this pattern for API-call-driven EventBridge rules, where the rule type is based on an event pattern and the target can be a Lambda function [1].
 
-### Console steps
+Create a rule in Event bridge as `TagEC2OnLaunchRule` with source as AWS Services and Target as  `AutoTagEC2OnLaunch` lambda Function.
 
-1. Open the [Amazon EventBridge Console](https://console.aws.amazon.com/events/).
-2. In the left pane, choose **Rules**.
-3. Click **Create rule**.
-4. Enter a name such as `TagEC2OnLaunchRule`.
-5. For **Event bus**, choose **default**, because AWS service events from your account go to the default event bus [1].
-6. For **Rule type**, choose **Rule with an event pattern** [1].
-7. Click **Next**.
-8. For **Event source**, choose **AWS services**.
-9. For the event pattern, use either the form-based builder or a custom pattern.
-
-### Recommended custom event pattern
-
-Use this JSON pattern:
-
-```json
-{
-  "source": ["aws.ec2"],
-  "detail-type": ["AWS API Call via CloudTrail"],
-  "detail": {
-    "eventSource": ["ec2.amazonaws.com"],
-    "eventName": ["RunInstances"]
-  }
-}
-```
-
-This pattern targets EC2 API calls coming from CloudTrail and narrows them to the `RunInstances` action, which is the API invoked when a new EC2 instance is launched [2][1].
-
-### Attach the Lambda target
-
-1. For **Target types**, choose **AWS service** [1].
-2. For **Select a target**, choose **Lambda function** [1].
-3. Select `AutoTagEC2OnLaunch`.
-4. Continue through the remaining screens.
-5. Review and click **Create rule** [1].
+This pattern targets EC2 API calls coming from CloudTrail and narrows them to the `RunInstances` action, which is the API invoked when a new EC2 instance is launched.
 
 AWS automatically adds permission so EventBridge can invoke the target Lambda function when you attach the function through the console [1].
 
 ![alt text](EventBridge.png)
 
-## Step 8: Understand the event payload
+## Step 6: Understand the event payload
 
 When the rule matches a `RunInstances` API call, Lambda receives an event that includes the CloudTrail API response. The instance IDs are typically present under this path:
 
@@ -180,7 +147,7 @@ When the rule matches a `RunInstances` API call, Lambda receives an event that i
 
 Each item in that list contains an `instanceId`, which the function uses as the resource ID for `create_tags()`.
 
-## Step 9: Test the automation
+## Step 7: Test the automation
 
 1. Launch a new EC2 instance in the same region where the rule and Lambda function were created.
 2. Wait for one to three minutes.
@@ -199,20 +166,12 @@ You should see tags similar to:
 
 ![alt text](ec2autotag.png)
 
-## Step 10: Verify in CloudWatch Logs
+## Step 8: Verify in CloudWatch Logs
 
 AWS recommends using CloudWatch Logs to confirm that the Lambda function executed successfully after the EventBridge rule fired [1].
 
-1. Open the [Amazon CloudWatch Console](https://console.aws.amazon.com/cloudwatch/).
-2. Choose **Logs** > **Log groups**.
-3. Open the log group for your function, usually `/aws/lambda/AutoTagEC2OnLaunch`.
-4. Open the latest log stream.
-5. Confirm log lines such as:
+Validate the output in cloudwatch -> logs -> Log groups.
 
-```text
-Received event: {...}
-Successfully tagged instances: ['i-xxxxxxxxxxxxxxxxx']
-```
 ![alt text](cloudwatch.png)
 
 ## Cleanup
@@ -224,3 +183,17 @@ To avoid charges after testing:
 3. Delete the Lambda function if no longer needed.
 4. Delete the CloudTrail trail only if it was created solely for this lab and is not needed elsewhere [1].
 
+## Files in this project
+
+- `lambda_function.py`  
+  - Contains the Lambda handler and Boto3 logic to delete S3 objects older than the configured number of days.
+- `README.md`  
+  - This documentation.
+- `Images`
+  - Screenshots
+
+## Author
+
+```bash 
+Anil Kumar Rajana
+```
