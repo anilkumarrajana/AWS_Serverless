@@ -37,22 +37,22 @@ Automate the stopping and starting of EC2 instances based on tags.
 
    - Navigate to the EC2 dashboard and create two new t2.micro instances (or any other available free-tier type).
    
-   ![alt text](image.png)
+  ![alt text](cloudWatch.png)
 
    - Tag the first instance with a key `Action` and value `Auto-Stop`.
    
-    ![alt text](image-2.png)
+   ![alt text](image-2.png)
     
    - Tag the second instance with a key `Action` and value `Auto-Start`.
    
-    ![alt text](image-1.png)
+   ![alt text](image-1.png)
 ### 2. Lambda IAM Role:
 
    - In the IAM dashboard, create a new role for Lambda.
 
    - Attach the `AmazonEC2FullAccess` policy to this role. (Note: In a real-world scenario, you would want to limit permissions for better security.)
    
-    ![alt text](image-3.png)
+   ![alt text](image-3.png)
 ### 3. Lambda Function:
 
    - Navigate to the Lambda dashboard and create a new function.
@@ -61,7 +61,7 @@ Automate the stopping and starting of EC2 instances based on tags.
 
    - Assign the IAM role created in the previous step.
    
-    ![alt text](image-6.png)
+   ![alt text](image-6.png)
     
    - Write the Boto3 Python script to:
 
@@ -73,7 +73,7 @@ Automate the stopping and starting of EC2 instances based on tags.
 
      4. Print instance IDs that were affected for logging purposes.
      
-     ![alt text](image-5.png)
+   ![alt text](image-5.png)
 
 ### 4. Manual Invocation:
 
