@@ -31,7 +31,7 @@ This assignment demonstrates how to combine S3, Lambda, IAM roles, and Boto3 to 
 ### 1. Create and populate the S3 bucket
 
 1. Create a S3bucket and use an unique name(anil-s3-cleanup-demo) for it.
-2. Upload the files now and 20 mins before as old into the s3 bucket.
+2. Upload the files 2 times in the span of 20mins. here old files are 20 mins earlier.
 
 ![alt text](s3bucket.png)
 
@@ -70,7 +70,6 @@ This assignment demonstrates how to combine S3, Lambda, IAM roles, and Boto3 to 
     def lambda_handler(event, context):
         now = datetime.now(timezone.utc)
         #cutoff_date = now - timedelta(days=DAYS_THRESHOLD)
-        cutoff_date = now - timedelta(minutes=15) #For testing purpose
 
         deleted_objects = []
 
@@ -104,7 +103,7 @@ This assignment demonstrates how to combine S3, Lambda, IAM roles, and Boto3 to 
         }
     ```
 
-2. For testing purpose have used 15 minuets threshold and deploy the code.
+2. For testing purpose Modified the cutoff_date time delta to 15 minutes.
 
     ```python
     cutoff_date = now - timedelta(minutes=15) #For testing purpose
@@ -116,8 +115,7 @@ This assignment demonstrates how to combine S3, Lambda, IAM roles, and Boto3 to 
 2. Create a new test event with any dummy JSON.  
 3. Click **Test** to invoke the function manually.  
 4. Verify the result:
-   - The function response should show how many objects were deleted.  
-   - In **CloudWatch Logs**, confirm the list of deleted object keys.  
+   - The function output response should show how many objects were deleted.  
    - In the S3 bucket, confirm that:
      - “Old” files are deleted.  
      - “New” files remain in place.
@@ -132,3 +130,11 @@ This assignment demonstrates how to combine S3, Lambda, IAM roles, and Boto3 to 
   - Contains the Lambda handler and Boto3 logic to delete S3 objects older than the configured number of days.
 - `README.md`  
   - This documentation.
+- `Images`
+  - Screenshots of all the outputs.
+ 
+## 👨Author
+
+```bash
+Anil Kumar Rajana
+```
