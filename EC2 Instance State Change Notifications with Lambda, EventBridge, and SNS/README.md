@@ -120,5 +120,7 @@ create a rule named `ec2-state-change-to-lambda`and Set **Target** to the `ec2-s
 
 ## Author
 
-```bash Anil Kumar Rajana ```
+```bash 
+Anil Kumar Rajana
+```
 
