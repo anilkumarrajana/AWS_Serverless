@@ -1,64 +1,39 @@
-# Automated Instance Management Using AWS Lambda and Boto3
+# 🚀Automated Instance Management Using AWS Lambda and Boto3
 
 ## Objective: 
 In this Project, you will gain hands-on experience with AWS Lambda and Boto3, Amazon's SDK for Python. You will create a Lambda function that will automatically manage EC2 instances based on their tags.
 
 Automate the stopping and starting of EC2 instances based on tags.
 
-### 1. Setup:
+## Services Used:
 
-   - Create two EC2 instances.
+   - EC2 Instances.
+   - IAM Roles and policies
+   - Lambda function
+   - Boto3
 
-   - Tag one of them as `Auto-Stop` and the other as `Auto-Start`.
-
-### 2. Lambda Function Creation:
-
-   - Set up an AWS Lambda function.
-
-   - Ensure that the Lambda function has the necessary IAM permissions to describe, stop, and start EC2 instances.
-
-### 3. Coding:
-
-   - Using Boto3 in the Lambda function:
-
-     - Detect all EC2 instances with the `Auto-Stop` tag and stop them.
-
-     - Detect all EC2 instances with the `Auto-Start` tag and start them.
-
-### 4. Testing:
-
-   - Manually invoke the Lambda function.
-
-   - Confirm that the instance tagged `Auto-Stop` stops and the one tagged `Auto-Start` starts.
-
-# Implementation:
+## Implementation:
 
 ### 1. EC2 Setup:
 
    - create two new t2.micro instances (or any other available free-tier type).
-   
   ![alt text](cloudWatch.png)
 
    - Tag the first instance with a key `Action` and value `Auto-Stop`.
-   
    ![alt text](image-2.png)
     
    - Tag the second instance with a key `Action` and value `Auto-Start`.
-   
    ![alt text](image-1.png)
    
 ### 2. Lambda IAM Role:
 
    -create a new role for Lambda.
-
    - Attach the `AmazonEC2FullAccess` policy to this role.
-   
    ![alt text](image-3.png)
    
 ### 3. Lambda Function:
 
    -Create a lambda function by assigning  the IAM role created in the previous step.
-   
    ![alt text](image-6.png)
     
    **- Write the Boto3 Python script:**
@@ -138,5 +113,26 @@ Automate the stopping and starting of EC2 instances based on tags.
 ### 4. Validation:
 
    - After deploying the function, confirm that the instances' states have changed according to their tags.
-   
    ![alt text](image-4.png)
+
+## 🧺 Cleanup
+
+To avoid charges after testing:
+
+1. Terminate the EC2 instances.
+2. Delete the Lambda function.
+
+## 📁 Files in this project
+
+- `lambda_function.py`  
+  - Contains the Lambda handler and Boto3 logic to delete S3 objects older than the configured number of days.
+- `README.md`  
+  - This documentation.
+- `Images`
+  - Screenshots
+
+## 👨 Author
+
+```bash 
+Anil Kumar Rajana
+```
